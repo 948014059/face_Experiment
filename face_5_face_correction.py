@@ -36,7 +36,7 @@ def correct_face(image,rects):
     a1=np.arctan(h1/w1)
 
     a=math.degrees(a1) #弧度转角度
-    print('旋转角度：%s°'%a)
+    # print('旋转角度：%s°'%a)
 
     # 图像旋转，这里使用的角度制
     matRotate = cv2.getRotationMatrix2D((width * 0.5, height * 0.5), a,1)
@@ -46,7 +46,11 @@ def correct_face(image,rects):
 
 #得到人脸
 def get_face(image_path,save=False):
-    image=cv2.imread(image_path)
+    if type(image_path) is str:
+        image = cv2.imread(image_path)
+    else:
+        image = image_path
+        save = False
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     dets = detector(gray, 1)  # 获得人脸个数
     # print(dets)

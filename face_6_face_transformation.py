@@ -1,9 +1,6 @@
 import dlib
 import cv2
 import numpy as np
-import os
-import random
-import glob
 import math
 
 detector=dlib.get_frontal_face_detector()
@@ -68,7 +65,7 @@ def correct_face(image,rects,size=128):
     a1=np.arctan(h1/w1)
 
     a = math.degrees(a1)  # 弧度转角度
-    print('旋转角度：%s°' % a)
+    # print('旋转角度：%s°' % a)
 
     # 这里使用弧度制
     points=get_trainpose_point(x,y,w,h,a1)
@@ -83,7 +80,11 @@ def correct_face(image,rects,size=128):
 
 #得到人脸
 def get_face(image_path,save=False):
-    image=cv2.imread(image_path)
+    if type(image_path) is str:
+        image=cv2.imread(image_path)
+    else:
+        image=image_path
+        save=False
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     dets = detector(gray, 1)  # 获得人脸个数
     # print(dets)
